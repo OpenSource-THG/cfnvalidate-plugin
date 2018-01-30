@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.thg.opensource.aws
+package com.thg.opensource.aws.cfnvalidate
 
-import com.thg.opensource.aws.tasks.CfnValidationTask
-import com.thg.opensource.aws.tasks.JsonValidateTask
-import com.thg.opensource.aws.tasks.YamlValidateTask
+import com.thg.opensource.aws.cfnvalidate.tasks.CfnValidationTask
+import com.thg.opensource.aws.cfnvalidate.tasks.JsonValidateTask
+import com.thg.opensource.aws.cfnvalidate.tasks.YamlValidateTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 

@@ -1,4 +1,4 @@
-package com.thg.opensource.aws.tasks
+package com.thg.opensource.aws.cfnvalidate.tasks
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.gradle.api.DefaultTask

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.thg.opensource.aws.tasks
+package com.thg.opensource.aws.cfnvalidate.tasks
 
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
