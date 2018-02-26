@@ -30,16 +30,15 @@ open class JsonValidateTask: DefaultTask() {
 
     var allValid = true
 
-    private fun File.isValidJson(): Boolean {
-
-        return try { ObjectMapper().readTree(inputStream()); true } catch (e: Exception) { allValid = false; false }
+    fun validateJson(json: String): Boolean {
+        return try { ObjectMapper().readTree(json); true } catch (e: Exception) { allValid = false; false }
     }
 
     @TaskAction
     fun validateJsonFiles() {
         File(jsonFilesPath).walkTopDown().filter { it.isFile }.forEach {
             println("Validating json file: $it")
-            println("valid?: ${it.isValidJson()}")
+            println("valid?: ${validateJson(it.readText())}")
         }
 
         if(!allValid) {

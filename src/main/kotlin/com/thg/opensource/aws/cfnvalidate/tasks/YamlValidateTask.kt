@@ -30,16 +30,15 @@ open class YamlValidateTask: DefaultTask() {
 
     var allValid = true
 
-    private fun File.isValidYaml(): Boolean {
-
-        return try { YAMLMapper().readTree(inputStream()); true } catch (e: Exception) { allValid = false; false }
+    fun validateYaml(yaml: String): Boolean {
+        return try { YAMLMapper().readTree(yaml); true } catch (e: Exception) { allValid = false; false }
     }
 
     @TaskAction
     fun validateYamlFiles() {
         File(yamlFilesPath).walkTopDown().filter { it.isFile }.forEach {
             println("Validating yaml file: $it")
-            println("valid?: ${it.isValidYaml()}")
+            println("valid?: ${validateYaml(it.readText())}")
         }
 
         if(!allValid) {

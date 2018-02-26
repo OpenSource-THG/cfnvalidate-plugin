@@ -15,34 +15,29 @@
  */
 package com.thg.opensource.aws.cfnvalidate.tasks
 
+import com.amazonaws.services.cloudformation.AmazonCloudFormationClient
+import com.amazonaws.services.cloudformation.model.ValidateTemplateRequest
+import com.amazonaws.services.cloudformation.model.ValidateTemplateResult
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.TaskAction
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 open class CfnValidationTask : DefaultTask() {
 
     @Input
     lateinit var cfnTemplatesPath: String
 
-    private fun String.exec(workingDir: File): Int {
-         return try {
-            val parts = split("\\s".toRegex())
-            val proc = ProcessBuilder(*parts.toTypedArray())
-                .directory(workingDir)
-                .redirectOutput(ProcessBuilder.Redirect.PIPE)
-                .redirectError(ProcessBuilder.Redirect.PIPE)
-                .start()
-
-            proc.waitFor(1, TimeUnit.MINUTES)
-            println(proc.inputStream.bufferedReader().readText())
-            proc.exitValue()
-
+    fun validateCfn(templateBody: String): Boolean {
+        val request: ValidateTemplateRequest = ValidateTemplateRequest().withTemplateBody(templateBody)
+        return try {
+            val awsResult: ValidateTemplateResult = AmazonCloudFormationClient().validateTemplate(request)
+            println(awsResult)
+            true
         } catch (e: Exception) {
             e.printStackTrace()
-            1
+            false
         }
     }
 
@@ -50,9 +45,9 @@ open class CfnValidationTask : DefaultTask() {
     fun validateCfnTemplates() {
         File(cfnTemplatesPath).walkTopDown().filter { it.isFile }.forEach {
             println("Calling aws cloudformation validation with $it")
-            val awsResult: Int = "aws cloudformation validate-template --template-body file://$it".exec(File("."))
-            if(awsResult > 0) {
-                throw GradleException("Result of validating template was non-zero")
+
+            if(!validateCfn(it.readText())) {
+                throw GradleException("Template failed to validate")
             }
         }
     }

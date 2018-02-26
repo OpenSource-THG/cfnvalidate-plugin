@@ -20,13 +20,13 @@ buildscript {
         repositories { flatDir name: 'libs', dirs: "../../../build/libs" }
         jcenter()
     }
-    dependencies { classpath 'com.thg.opensource.aws:cfnvalidate:1+' }
+    dependencies { classpath 'com.thg.opensource.aws:cfnvalidate-plugin:1+' }
 }
 
-apply plugin: 'cfnvalidate'
+apply plugin: 'com.thg.opensource.aws.cfnvalidate'
 
 cfnvalidate {
-    cfnTemplatesPath = "src/test/resources/templates"
+    cfnTemplatesPath = "src/test/resources/templates/test-template.cfn.yaml"
 }
 
 jsonvalidate {
