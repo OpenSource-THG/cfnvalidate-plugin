@@ -56,7 +56,7 @@ version = '1.0.0'
 
 pluginBundle {
     website = 'https://github.com/OpenSource-THG'
-    vcsUrl = 'https://github.com/OpenSource-THG/cfnvalidate-plugin'
+    vcsUrl = 'https://github.com/OpenSource-THG/cfnvalidate-plugin.git'
     description = 'Provides validation for AWS cloudformation templates'
     tags = ['AWS', 'cloudformation', 'validation']
 
